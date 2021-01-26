@@ -1,73 +1,65 @@
 function createStack() {
-    function Stack() {
-        let data = [];
-        let top = 0;
-
-        this.push = function (element) {
-            data.push(element);
+    return {
+        data: [],
+        push: function (element) {
+            this.data.push(element);
+        },
+        pop: function () {
+            return this.data.pop();
+        },
+        peek: function () {
+            return this.data[data.length - 1];
+        },
+        isEmpty: function () {
+            return this.data.length === 0;
+        },
+        clear: function () {
+            this.data = [];
+        },
+        size: function () {
+            return this.data.length;
+        },
+        getData: function () {
+            return [...this.data];
         }
-
-        this.pop = function () {
-            return data.pop();
-        }
-
-        this.peek = function () {
-            return data[data.length - 1];
-        }
-
-        this.isEmpty = function () {
-            return data.length - 1 === 0;
-        }
-
-        this.clear = function () {
-            data = [];
-        }
-
-        this.size = function () {
-            return data.length;
-        }
-
-        this.getData = function () {
-            return [...data];
-        }
-
     }
-
-    return new Stack();
 }
 
 function createQ() {
-    function Queue() {
-        let stack1 = createStack();
-        let stack2 = createStack();
+    return {
+        stack1: createStack(),
+        stack2: createStack(),
+        enqueue: function (element) {
 
-        this.enqueue = function (element) {
-            for (let i = 0; i < stack2.size(); i++) {
-                stack1.push(stack2.pop());
+                this.stack1.push(element);
+
+        },
+        dequeue: function () {
+            while (!this.stack1.isEmpty()) {
+                this.stack2.push(this.stack1.pop());
             }
-            stack1.push(element);
-        }
-
-        this.dequeue = function () {
-            while (stack1.size() > 0) {
-                stack2.push(stack1.pop());
+            console.log(this.stack2.pop());
+            while (!this.stack2.isEmpty()) {
+                this.stack1.push(this.stack2.pop());
             }
-
-            return stack2.pop();
-        }
-
-        this.printQ = function () {
-            if (stack1.size() > 0) {
-                console.log(stack1.getData().reverse());
-            } else {
-                console.log(stack2.getData());
-            }
-
+        },
+        printQ: function () {
+            console.log(this.stack1.getData().reverse());
         }
     }
-
-    return new Queue();
 }
 
-let queue = createQ();
-
+let q = createQ();
+q.enqueue(1);
+q.enqueue(2);
+q.enqueue(3);
+q.enqueue(4);
+q.printQ();
+q.dequeue();
+q.printQ();
+q.dequeue();
+q.printQ();
+q.dequeue();
+q.printQ();
+q.dequeue();
+q.printQ();
